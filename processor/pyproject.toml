@@ -16,11 +16,12 @@ dev = [
     "poethepoet>=0.37.0",
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
+    "pytest-cov>=7.0.0",
     "ruff>=0.13.3",
 ]
 
 [tool.poe.tasks]
-test = "pytest tests/"
+test = "pytest --cov"
 lint = "ruff check ."
 format = "ruff format ."
 mypy = "mypy app/"

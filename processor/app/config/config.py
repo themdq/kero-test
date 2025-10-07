@@ -1,8 +1,8 @@
-from config.events import EventFilterSettings
+from app.config.events import EventFilterSettings
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from services.database.postgres.config import PostgresSettings
-from services.messaging.kafka.config import KafkaSettings
+from app.services.database.postgres.config import PostgresSettings
+from app.services.messaging.kafka.config import KafkaSettings
 
 
 class AppSettings(BaseSettings):

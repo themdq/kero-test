@@ -1,9 +1,9 @@
 import logging
 from typing import Any, Callable
 
-from config.config import settings
-from models.event import EventIn
-from services.database.interface.database import DBService
+from app.config.config import settings
+from app.models.event import EventIn
+from app.services.database.interface.database import DBService
 
 logger = logging.getLogger("handler")
 
