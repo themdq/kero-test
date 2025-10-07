@@ -3,6 +3,11 @@ services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.9.0
     restart: always
+    healthcheck:
+      test: nc -z localhost 2181 || exit -1
+      interval: 1s
+      timeout: 10s
+      retries: 3
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -15,6 +20,11 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.9.0
+    healthcheck:
+      test: kafka-topics --bootstrap-server kafka:9092 --list
+      interval: 1s
+      timeout: 10s
+      retries: 3
     depends_on:
       - zookeeper
     environment:
@@ -47,6 +57,12 @@ services:
   db:
     image: postgres:18.0
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     # set shared memory limit when using docker compose
     shm_size: 128mb
     volumes:
@@ -90,8 +106,10 @@ services:
     env_file:
       - .env
     depends_on:
-     - kafka
-     - db
+      kafka:
+        condition: service_healthy
+      db: 
+        condition: service_healthy
   
 
 volumes:
