@@ -1,32 +1,36 @@
 from typing import Any
 
-from aiokafka import AIOKafkaProducer
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
 
-from receiver.app.config.config import settings
-from receiver.app.models.models import Event
+from app.config.config import settings
+from app.deps import get_producer
+from app.models.event import Event
+from app.services.messaging.interface.producer import MessagingProducer
+from app.utils.logger import create_logger
 
+logger = create_logger("events")
 router = APIRouter(prefix="/events", tags=["events"])
 
 
-@router.post("/")  # add response model
-async def create_event(*, event: Event) -> Any:
+@router.post("/", status_code=202)  # add response model
+async def create_event(
+    *, event: Event, producer: MessagingProducer = Depends(get_producer)
+) -> Any:
     """
-    Create new event.
+    Accept event and publish to Kafka. Returns 202 Accepted on success, 500 on failed produce.
     """
-    event = Event.model_validate(event)
-    answer = await kafka_producer(event.model_dump_json())
-    print(answer)
-    return answer
 
+    # normalize payload to dict:
+    payload_dict = event.model_dump()
 
-async def kafka_producer(request_data: str) -> str:
-    producer = AIOKafkaProducer(bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS)
-    await producer.start()
-    try:
-        answer = await producer.send_and_wait(
-            settings.KAFKA_TOPIC, f"{request_data}".encode("utf-8"), partition=0
-        )
-    finally:
-        await producer.stop()
-    return answer
+    ok = await producer.send_event(
+        topic=settings.kafka.topics[0],
+        event_type=payload_dict.get("event_type"),
+        event_data=payload_dict.get("event_data") or {},
+        event_timestamp=payload_dict.get("event_timestamp"),
+        user_id=payload_dict.get("user_id"),
+        key=payload_dict.get("user_id"),
+    )
+    if not ok:
+        raise HTTPException(status_code=500, detail="Failed to produce message")
+    return {"status": "accepted"}

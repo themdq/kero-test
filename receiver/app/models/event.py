@@ -9,5 +9,5 @@ class EventData(BaseModel):
 class Event(BaseModel):
     user_id: str
     event_type: str
-    event_timestamp: str
+    event_timestamp: str # ADD Validation
     event_data: EventData

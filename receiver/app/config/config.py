@@ -2,13 +2,15 @@ from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from app.services.messaging.kafka.config import KafkaSettings
+
 
 class Settings(BaseSettings):
     API_V1_STR: str = "/api/v1"
     ENVIRONMENT: Literal["local", "staging", "production"] = "local"
-    KAFKA_BOOTSTRAP_SERVERS: str = "kafka:9092"
-    KAFKA_TOPIC: str = "incoming_events"
     PROJECT_NAME: str = "receiver"
+
+    kafka: KafkaSettings = KafkaSettings()
 
     model_config = SettingsConfigDict(
         env_file="../.env",
