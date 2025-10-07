@@ -1,5 +1,4 @@
 from logging import Logger
-from typing import Union
 
 from services.database.interface.database import DBService
 from services.database.postgres.config import PostgresSettings
@@ -12,7 +11,7 @@ class DatabaseFactory:
     @staticmethod
     def create_database(
         logger: Logger,
-        config: Union[PostgresSettings, None] = PostgresSettings,
+        config: PostgresSettings | None = PostgresSettings,
         db_type: str = "postgres",
     ) -> DBService:
         """Create a database connection"""

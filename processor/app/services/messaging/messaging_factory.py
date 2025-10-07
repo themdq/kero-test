@@ -1,5 +1,4 @@
 from logging import Logger
-from typing import Union
 
 from services.messaging.interface.consumer import MessagingConsumer
 from services.messaging.kafka.config import (
@@ -14,7 +13,7 @@ class MessagingFactory:
     @staticmethod
     def create_consumer(
         logger: Logger,
-        config: Union[KafkaSettings, None] = None,
+        config: KafkaSettings | None = None,
         broker_type: str = "kafka",
     ) -> MessagingConsumer:
         """Create a messaging consumer"""

@@ -64,6 +64,8 @@ services:
     build: receiver/
     env_file:
       - .env
+    depends_on:
+      - kafka
     ports:
       - "8000:8000"
     develop:
@@ -82,6 +84,15 @@ services:
         # Rebuild the image if dependencies change by checking uv.lock
         - action: rebuild
           path: ./uv.lock
+  
+  processor:
+    build: processor/
+    env_file:
+      - .env
+    depends_on:
+     - kafka
+     - db
+  
 
 volumes:
   postgresql_data:
