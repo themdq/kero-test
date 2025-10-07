@@ -38,16 +38,14 @@ cd <repo-root>
 ### 2. Create `.env` (example)
 
 ```env
-POSTGRES_DB=eventsdb
-POSTGRES_USER=events
-POSTGRES_PASSWORD=supersecret
-DATABASE_DSN=postgresql://events:supersecret@localhost:5432/eventsdb
+POSTGRES_DB=processor
+POSTGRES_USER=admin
+POSTGRES_PASSWORD=admin
+POSTGRES_PORT=5432
 
-KAFKA_BOOTSTRAP_SERVERS=localhost:9092
-KAFKA_TOPIC=incoming_events
-
-API_V1_STR=/api/v1
-PROJECT_NAME=event-receiver
+PROJECT_NAME="receiver"
+KAFKA_BOOTSTRAP_SERVERS="kafka:9092"
+KAFKA_TOPIC="incoming_events"
 ```
 
 ### 3. Bring up infra
@@ -66,20 +64,28 @@ docker compose -f docker-compose.kraft.yml up -d
 
 ### 4. Run services locally
 
-* Create .env.dev
+Services automatically starts with docker-compose, but you can start them locally
 
+* Create .env.dev
+* Create venv and install requirements
 ```bash
+cd receiver
 uv sync
 
-* Use vscode debug options or run manually
+cd processor
+uv sync
+``` 
 
+* Use vscode debug options or run manually:
+
+```bash
 # Receiver
 cd receiver
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 # Processor
 cd processor
-python -m app.main
+python app/main.py
 ```
 
 ---

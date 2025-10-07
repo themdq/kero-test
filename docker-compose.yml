@@ -12,10 +12,6 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
-    volumes:
-      - zookeeper-data:/var/lib/zookeeper/data
-      - zookeeper-log:/var/lib/zookeeper/log
-      - zookeeper-secrets:/etc/zookeeper/secrets
 
   kafka:
     image: confluentinc/cp-kafka:7.9.0
@@ -38,9 +34,6 @@ services:
     ports:
       - "9092:9092"
       - "9093:9093"
-    volumes:
-      - kafka-data:/var/lib/kafka/data
-      - kafka-secrets:/etc/kafka/secrets
 
   kafdrop:
     image: obsidiandynamics/kafdrop:4.0.1
@@ -63,8 +56,6 @@ services:
       start_period: 10s
     # set shared memory limit when using docker compose
     shm_size: 128mb
-    volumes:
-      - postgresql_data:/var/lib/postgresql/data
     env_file:
       - .env    
     environment:
@@ -111,12 +102,3 @@ services:
         condition: service_healthy
       db: 
         condition: service_healthy
-  
-
-volumes:
-  postgresql_data:
-  zookeeper-data:
-  zookeeper-log:
-  zookeeper-secrets:
-  kafka-data:
-  kafka-secrets:
