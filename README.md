@@ -76,15 +76,17 @@ cd processor
 uv sync
 ``` 
 
-* Use vscode debug options or run manually:
+* Use vscode debug options (don't forget about virtual environment in vs code)or run manually:
 
 ```bash
 # Receiver
 cd receiver
+source .venv/bin/activate
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 # Processor
 cd processor
+source .venv/bin/activate
 python app/main.py
 ```
 
