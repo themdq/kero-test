@@ -3,8 +3,8 @@ from typing import Any
 from aiokafka import AIOKafkaProducer
 from fastapi import APIRouter
 
-from app.core.config import settings
-from app.models import Event
+from receiver.app.config.config import settings
+from receiver.app.models.models import Event
 
 router = APIRouter(prefix="/events", tags=["events"])
 
