@@ -20,16 +20,13 @@ async def create_event(
     Accept event and publish to Kafka. Returns 202 Accepted on success, 500 on failed produce.
     """
 
-    # normalize payload to dict:
-    payload_dict = event.model_dump()
-
     ok = await producer.send_event(
         topic=settings.kafka.topics[0],
-        event_type=payload_dict.get("event_type"),
-        event_data=payload_dict.get("event_data") or {},
-        event_timestamp=payload_dict.get("event_timestamp"),
-        user_id=payload_dict.get("user_id"),
-        key=payload_dict.get("user_id"),
+        event_type=event.event_type,
+        event_data=event.event_data.model_dump() or {},
+        event_timestamp=event.event_timestamp,
+        user_id=event.user_id,
+        key=event.user_id,
     )
     if not ok:
         raise HTTPException(status_code=500, detail="Failed to produce message")

@@ -89,9 +89,9 @@ class KafkaMessagingProducer(MessagingProducer):
         self,
         topic: str,
         event_type: str,
+        event_timestamp: str,
+        user_id: str,
         event_data: dict[str, Any],
-        event_timestamp,
-        user_id,
         key: str | None = None,
     ) -> bool:
         """Send an event message with standardized format"""

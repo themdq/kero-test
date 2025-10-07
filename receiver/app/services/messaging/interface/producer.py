@@ -37,8 +37,8 @@ class MessagingProducer(ABC):
         self,
         topic: str,
         event_type: str,
-        event_timestamp,
-        user_id,
+        event_timestamp: str,
+        user_id: str,
         event_data: dict[str, Any],
         key: str | None = None,
     ) -> bool:
