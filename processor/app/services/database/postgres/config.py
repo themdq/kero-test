@@ -9,9 +9,7 @@ class PostgresSettings(BaseSettings):
     port: int = Field(default=5432)
     database: str = Field(default="processor")
 
-    model_config = SettingsConfigDict(
-        env_prefix="POSTGRES_", env_file=".env", extra="ignore"
-    )
+    model_config = SettingsConfigDict(env_prefix="POSTGRES_")
 
     @computed_field  # type: ignore[misc]
     @property

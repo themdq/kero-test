@@ -1,11 +1,11 @@
-import logging
 from typing import Any, Callable
 
-from app.config.config import settings
-from app.models.event import EventIn
-from app.services.database.interface.database import DBService
+from config.config import settings
+from models.event import EventIn
+from services.database.interface.database import DBService
+from utils.logger import create_logger
 
-logger = logging.getLogger("handler")
+logger = create_logger("handler")
 
 
 def _passes_type_filter(event_type: str | None) -> bool:

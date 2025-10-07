@@ -37,7 +37,7 @@ class PostgresDatabase(DBService):
             self.logger.info("🛑 PostgreSQL disconnected")
 
     async def _init_connection(self, conn: asyncpg.Connection) -> None:
-        """Настраивает кодеки и другие параметры соединения"""
+        """Setup codecs"""
         await conn.set_type_codec(
             "json",
             encoder=json.dumps,

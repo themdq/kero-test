@@ -66,8 +66,12 @@ docker compose -f docker-compose.kraft.yml up -d
 
 ### 4. Run services locally
 
+* Create .env.dev
+
 ```bash
 uv sync
+
+* Use vscode debug options or run manually
 
 # Receiver
 cd receiver

@@ -2,13 +2,13 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from app.config.config import settings
-from app.handlers.event_handler import _passes_type_filter, message_handler_factory
+from config.config import settings
+from handlers.event_handler import _passes_type_filter, message_handler_factory
 
 
 @pytest.fixture
 def fake_settings(monkeypatch):
-    from app.config.events import EventFilterSettings
+    from config.events import EventFilterSettings
 
     fake = EventFilterSettings(
         allowed_types=["purchase"],

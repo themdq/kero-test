@@ -10,3 +10,4 @@ htmlcov
 .venv
 .DS_STORE
 logs
+.pytest_cache

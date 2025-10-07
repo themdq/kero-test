@@ -12,7 +12,16 @@
             ],
             "cwd": "${workspaceFolder}/receiver",
             "jinja": true,
-            "envFile": "${workspaceFolder}/receiver/.env",
+            "envFile": "${workspaceFolder}/.env.dev",
+        },
+        {
+            "name": "Processor Debug",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "main.py",
+            "cwd": "${workspaceFolder}/processor/app",
+            "jinja": true,
+            "envFile": "${workspaceFolder}/.env.dev",
         },
     ]
 }

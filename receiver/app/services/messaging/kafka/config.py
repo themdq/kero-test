@@ -7,6 +7,4 @@ class KafkaSettings(BaseSettings):
     client_id: str = "123"
     topics: list = Field(default=["incoming_events"])
 
-    model_config = SettingsConfigDict(
-        env_prefix="KAFKA_", env_file=".env", extra="ignore"
-    )
+    model_config = SettingsConfigDict(env_prefix="KAFKA_")

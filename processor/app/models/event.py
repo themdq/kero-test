@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 
 from pydantic import BaseModel, Field, field_validator
-from app.utils.time_conversion import parse_timestamp
+from utils.time_conversion import parse_timestamp
 
 class EventPayload(BaseModel):
     item_id: str

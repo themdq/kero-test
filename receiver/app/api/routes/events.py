@@ -12,7 +12,7 @@ logger = create_logger("events")
 router = APIRouter(prefix="/events", tags=["events"])
 
 
-@router.post("/", status_code=202)  # add response model
+@router.post("/", status_code=202)
 async def create_event(
     *, event: Event, producer: MessagingProducer = Depends(get_producer)
 ) -> Any:

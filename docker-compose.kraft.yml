@@ -23,9 +23,9 @@ services:
       KAFKA_JMX_PORT: 9101
       KAFKA_JMX_HOSTNAME: localhost
     ports:
-      - "9092:9092"      # Для внутреннего общения (PLAINTEXT)
-      - "9093:9094"      # Для внешнего общения (PLAINTEXT_HOST) - Изменено: хост 9093 -> контейнер 9094
-      - "9101:9101"      # JMX порт
+      - "9092:9092"      # Internal
+      - "9093:9094"      # External
+      - "9101:9101"      # JMX
     volumes:
       - kafka-data:/var/lib/kafka/data
       - kafka-secrets:/etc/kafka/secrets

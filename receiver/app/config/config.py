@@ -1,8 +1,7 @@
 from typing import Literal
 
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
 from app.services.messaging.kafka.config import KafkaSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -12,11 +11,7 @@ class Settings(BaseSettings):
 
     kafka: KafkaSettings = KafkaSettings()
 
-    model_config = SettingsConfigDict(
-        env_file="../.env",
-        env_ignore_empty=True,
-        extra="ignore",
-    )
+    model_config = SettingsConfigDict()
 
 
 settings = Settings()  # type: ignore
