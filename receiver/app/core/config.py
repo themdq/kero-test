@@ -3,7 +3,6 @@ from typing import Literal
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file="../.env",
@@ -15,5 +14,6 @@ class Settings(BaseSettings):
     KAFKA_BOOTSTRAP_SERVERS: str = "localhost:9092"
     KAFKA_TOPIC: str = "incoming_events"
     PROJECT_NAME: str
+
 
 settings = Settings()  # type: ignore
