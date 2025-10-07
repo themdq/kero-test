@@ -1,7 +1,7 @@
 [project]
 name = "processor"
 version = "0.1.0"
-description = "Add your description here"
+description = "Consume messages from Kafka and load into database"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -13,7 +13,14 @@ dependencies = [
 [dependency-groups]
 dev = [
     "mypy>=1.18.2",
+    "poethepoet>=0.37.0",
     "pytest>=8.4.2",
     "pytest-asyncio>=1.2.0",
     "ruff>=0.13.3",
 ]
+
+[tool.poe.tasks]
+test = "pytest tests/"
+lint = "ruff check ."
+format = "ruff format ."
+mypy = "mypy app/"

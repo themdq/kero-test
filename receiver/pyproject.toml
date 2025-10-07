@@ -18,8 +18,6 @@ dev = [
     "ruff>=0.13.3",
 ]
 
-[tool.ruff]
-exclude = ["alembic"]
 
 [tool.poe.tasks]
 test = "pytest tests/"
