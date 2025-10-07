@@ -15,7 +15,9 @@ class PostgresDatabase(DBService):
 
     async def connect(self) -> None:
         if not self.pool:
-            self.pool = await asyncpg.create_pool(self.config.dsn.encoded_string())
+            self.pool = await asyncpg.create_pool(
+                self.config.dsn.encoded_string(), init=self._init_connection
+            )
         async with self.pool.acquire() as conn:
             await conn.execute("""
                 CREATE TABLE IF NOT EXISTS events (
@@ -24,7 +26,6 @@ class PostgresDatabase(DBService):
                     event_type TEXT NOT NULL,
                     event_timestamp TIMESTAMPTZ NOT NULL,
                     event_data JSONB NOT NULL,
-                    created_at TIMESTAMPTZ DEFAULT now(),
                     UNIQUE (user_id, event_type, event_timestamp)
                 );
             """)
@@ -34,6 +35,15 @@ class PostgresDatabase(DBService):
         if self.pool:
             await self.pool.close()
             self.logger.info("🛑 PostgreSQL disconnected")
+
+    async def _init_connection(self, conn: asyncpg.Connection) -> None:
+        """Настраивает кодеки и другие параметры соединения"""
+        await conn.set_type_codec(
+            "json",
+            encoder=json.dumps,
+            decoder=json.loads,
+            schema="pg_catalog",
+        )
 
     async def save_event(
         self,
@@ -46,9 +56,6 @@ class PostgresDatabase(DBService):
             raise RuntimeError("Database not connected")
 
         async with self.pool.acquire() as conn:
-            await conn.set_type_codec(
-                "json", encoder=json.dumps, decoder=json.loads, schema="pg_catalog"
-            ) # TODO: Change
             row_id = await conn.fetchval(
                 """
                 INSERT INTO events (user_id, event_type, event_timestamp, event_data)
