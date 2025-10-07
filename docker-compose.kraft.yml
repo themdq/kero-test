@@ -26,9 +26,6 @@ services:
       - "9092:9092"      # Internal
       - "9093:9094"      # External
       - "9101:9101"      # JMX
-    volumes:
-      - kafka-data:/var/lib/kafka/data
-      - kafka-secrets:/etc/kafka/secrets
 
   kafdrop:
     image: obsidiandynamics/kafdrop:4.0.1
@@ -51,8 +48,6 @@ services:
       start_period: 10s
     # set shared memory limit when using docker compose
     shm_size: 128mb
-    volumes:
-      - postgresql_data:/var/lib/postgresql/data
     env_file:
       - .env    
     environment:
@@ -99,9 +94,3 @@ services:
         condition: service_healthy
       db: 
         condition: service_healthy
-  
-
-volumes:
-  postgresql_data:
-  kafka-data:
-  kafka-secrets:
