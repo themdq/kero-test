@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import List
 
 from pydantic import BaseModel, Field, field_validator
-
+from utils.time_conversion import parse_timestamp
 
 class EventPayload(BaseModel):
     item_id: str
@@ -23,12 +23,8 @@ class EventIn(BaseModel):
         if isinstance(v, datetime):
             return v
         if isinstance(v, str):
-            s = v.strip()
-            # replace Z with +00:00 for fromisoformat
-            if s.endswith("Z"):
-                s = s[:-1] + "+00:00"
             try:
-                return datetime.fromisoformat(s)
+                return parse_timestamp(v)
             except Exception as e:
                 raise ValueError(f"invalid ISO8601 timestamp: {v}") from e
         raise ValueError("event_timestamp must be datetime or ISO string")

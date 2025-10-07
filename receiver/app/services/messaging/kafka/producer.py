@@ -54,8 +54,7 @@ class KafkaMessagingProducer(MessagingProducer):
     async def stop(self) -> None:
         """Stop the Kafka producer"""
         if self.producer:
-            await self.stop()
-            self.logger.info("✅ Kafka producer stopped successfully")
+            await self.cleanup()
 
     async def send_message(
         self, topic: str, message: dict[str, Any], key: str | None = None

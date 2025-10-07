@@ -93,7 +93,7 @@ class KafkaMessagingConsumer(MessagingConsumer):
                 await self.initialize()
 
             # create a task for consuming messages
-            self.consume_task = asyncio.create_task(self.__consume_loop())
+            self._consume_task = asyncio.create_task(self.__consume_loop())
             self.logger.info("Started Kafka consumer task")
         except Exception as e:
             self.logger.error(f"Failed to start Kafka consumer: {str(e)}")

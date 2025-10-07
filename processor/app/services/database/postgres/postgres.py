@@ -48,7 +48,7 @@ class PostgresDatabase(DBService):
         async with self.pool.acquire() as conn:
             await conn.set_type_codec(
                 "json", encoder=json.dumps, decoder=json.loads, schema="pg_catalog"
-            )
+            ) # TODO: Change
             row_id = await conn.fetchval(
                 """
                 INSERT INTO events (user_id, event_type, event_timestamp, event_data)
